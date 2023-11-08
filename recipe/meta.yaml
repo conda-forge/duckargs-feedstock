@@ -1,5 +1,5 @@
 {% set name = "duckargs" %}
-{% set version = "1.3.0" %}
+{% set version = "1.4.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/eriknyquist/duckargs/archive/v{{ version }}.tar.gz
-  sha256: 0af01e868fe21ca31384f970fc241d6714fe4196a2448a977c6d0b8506bc78ce
+  sha256: 1b7e535a2a836efd8b679dcf03e0bf3dafb08987b30b28ee282000feb24619cd
 
 build:
   noarch: python
