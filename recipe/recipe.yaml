@@ -1,0 +1,60 @@
+schema_version: 1
+
+context:
+  name: duckargs
+  version: 1.5.1
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/eriknyquist/duckargs/archive/v${{ version }}.tar.gz
+  sha256: eb12846b57f64114aa9fe222197e7b51f15363d81be2ffa7be9ebffb691fa4b8
+
+build:
+  number: 0
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv
+  python:
+    entry_points:
+      - duckargs=duckargs.__main__:duckargs_python
+      - duckargs-c=duckargs.__main__:duckargs_c
+      - duckargs-python=duckargs.__main__:duckargs_python
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+
+tests:
+  - python:
+      imports:
+        - duckargs
+      pip_check: true
+      python_version: ${{ python_min }}.*
+  - files:
+      source:
+        - tests
+    requirements:
+      run:
+        - pytest
+        - python ${{ python_min }}.*
+    script:
+      - duckargs --help
+      - duckargs-c --help
+      - duckargs-python --help
+      - pytest -vvv --capture=tee-sys -k "not test_readme_example" tests
+
+about:
+  license: Apache-2.0
+  license_file: LICENSE
+  summary: Productivity tool for quickly creating python programs that parse command-line arguments.
+  homepage: http://github.com/eriknyquist/duckargs
+
+extra:
+  recipe-maintainers:
+    - thewchan
